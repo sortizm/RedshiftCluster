@@ -1,4 +1,6 @@
 .idea/**
 aws.cfg
 
+sql/
+
 __pycache__

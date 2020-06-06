@@ -1,0 +1,33 @@
+[credentials]
+aws_key = AWS_ACCESS_KEY
+aws_secret = AWS_SECRET_ACCESS_KEY
+
+[cluster]
+cluster_identifier = my-cluster
+
+region = us-west-2
+cluster_type = multi-node
+nodes = 2
+node_type = dc2.large
+
+db =
+db_user =
+db_password =
+db_port = 5439
+
+[status]
+# Define values to be shown by the status command. Nested values accessed with commas
+# See https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/redshift.html#Redshift.Client.describe_clusters for complete list
+availability = ClusterAvailabilityStatus
+status = ClusterStatus
+host = Endpoint,Address
+port = Endpoint,Port
+
+[sql]
+# All scripts in this section will be run as part of the cluster creation
+# init_script = sql/sample.sql
+
+[iam_roles]
+# All values in this section will be assigned as iam_roles. Leave empty for no roles
+# Variable names are not important (as long as they are different)
+redshift_role = arn:aws:iam::something/something
