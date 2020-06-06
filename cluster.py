@@ -7,7 +7,7 @@ import boto3
 import click
 import psycopg2
 
-SLEEP_TIME_SECONDS = 15
+SLEEP_TIME_SECONDS = 20
 
 
 @click.group()
@@ -49,11 +49,7 @@ def up(ctx):
     )
 
     wait_for_cluster_availability(redshift, config['cluster_identifier'], 'Available')
-    host = get_host(redshift, config['cluster_identifier'])
-    sql_scripts = ctx.obj['config']['sql']
-    for key, script in sql_scripts.items():
-        run_sql_script(key, script,
-                       config['db_user'], config['db_password'], host, config['db_port'], config['db'])
+    run_initialisation_scripts(redshift, config, ctx.obj['config']['sql'])
     print('Cluster initialised')
 
 
@@ -64,6 +60,19 @@ def wait_for_cluster_availability(redshift, cluster_id, availability):
         response = redshift.describe_clusters(ClusterIdentifier=cluster_id)
         response_availability = response['Clusters'][0]['ClusterAvailabilityStatus']
         sleep(SLEEP_TIME_SECONDS)
+
+
+def run_initialisation_scripts(redshift, config, sql_scripts):
+    host = get_host(redshift, config['cluster_identifier'])
+    for name, script in sql_scripts.items():
+        run_sql_script(name,
+                       script,
+                       config['db_user'],
+                       config['db_password'],
+                       host,
+                       config['db_port'],
+                       config['db']
+                       )
 
 
 def get_host(redshift, cluster_id):
