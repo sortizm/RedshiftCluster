@@ -8,7 +8,7 @@ The script is based on the configuration found in aws.cfg
 2. Rename _aws.cfg.template_ as _aws.cfg_ and set the variables from the credentials and cluster sections.
 3. Run
 ```bash
-./cluster up     # to create the cluster
-./cluster status # to get the cluster information
-./cluster down   # to delete the cluster
+./cluster.py up     # to create the cluster
+./cluster.py status # to get the cluster information
+./cluster.py down   # to delete the cluster
 ```
